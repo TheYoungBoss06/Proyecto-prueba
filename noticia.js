@@ -3,7 +3,7 @@ const id = params.get("id");
 
 const obtenerNoticias = async () => {
     try {
-        const response = await fetch('https://deultimominuto.net/wp-json/wp/v2/posts?per_page=100');
+        const response = await fetch('https://deultimominuto.net/wp-json/wp/v2/posts');
         return await response.json();
     } catch (error) {
         console.error("Error al obtener noticias:", error);
