@@ -1,4 +1,7 @@
 const apiURL = 'https://api3.bolillerobingoonlinegratis.com/api/companies';
+const CACHE_KEY = 'loterias-cache';
+const CACHE_TIMESTAMP_KEY = 'loterias-timestamp';
+const CACHE_TTL = 5 * 60 * 1000; // 5 minutos
 
 // Obtener la fecha actual en formato YYYY-MM-DD
 function obtenerFechaLocal() {
@@ -55,9 +58,7 @@ function crearCartaLoteria(loteria, esHoy, delay) {
     <div class="fecha">Fecha del sorteo: ${loteria.ultimo_sorteo.fecha_sorteo}</div>
     <div class="premios">${bolasHTML}</div>
     <div class="acciones">
-      <button class="btn-calendario" data-id="${loteria.id}" data-nombre="${loteria.titulo}">
-        📅 Ver otra fecha
-      </button>
+      <button class="btn-calendario" data-id="${loteria.id}" data-nombre="${loteria.titulo}">📅 Ver otra fecha</button>
     </div>
     <div class="calendario-popup" id="calendario-${loteria.id}" style="display:none;"></div>
   `;
@@ -69,7 +70,7 @@ function crearCartaLoteria(loteria, esHoy, delay) {
   return card;
 }
 
-
+// Agregar los listeners de calendario
 function agregarCalendarioListeners() {
   document.querySelectorAll('.btn-calendario').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -85,7 +86,6 @@ function agregarCalendarioListeners() {
         input.max = fechaHoy;
         input.addEventListener('change', () => {
           const fechaSeleccionada = input.value;
-
           window.location.href = `loteria.html?id=${id}&fecha=${fechaSeleccionada}&nombre=${encodeURIComponent(nombre)}`;
         });
         popup.appendChild(input);
@@ -96,26 +96,45 @@ function agregarCalendarioListeners() {
   });
 }
 
-fetch(apiURL)
-.then(res => res.json())
-.then(data => {
-  const loterias = data.map(company => company.loteria).flat(); 
+// Función para cargar las loterías desde localStorage o la API
+function cargarLoterias() {
+  const cache = localStorage.getItem(CACHE_KEY);
+  const timestamp = localStorage.getItem(CACHE_TIMESTAMP_KEY);
+  const ahora = Date.now();
+
+  // Verificar si tenemos caché válido
+  if (cache && timestamp && ahora - parseInt(timestamp) < CACHE_TTL) {
+    const loterias = JSON.parse(cache);
+    mostrarLoterias(loterias);
+  } else {
+    fetch(apiURL)
+      .then(res => res.json())
+      .then(data => {
+        const loterias = data.map(company => company.loteria).flat();
+        // Guardar los datos en localStorage
+        localStorage.setItem(CACHE_KEY, JSON.stringify(loterias));
+        localStorage.setItem(CACHE_TIMESTAMP_KEY, Date.now().toString());
+        mostrarLoterias(loterias);
+      })
+      .catch(err => console.error('Error al obtener los datos:', err));
+  }
+}
+
+// Función para mostrar las loterías
+function mostrarLoterias(loterias) {
   const container = document.getElementById('loterias');
   const fechaHoy = obtenerFechaLocal();
 
   loterias.forEach((loteria, index) => {
-    const fechaSorteo = loteria.ultimo_sorteo.fecha_sorteo; 
+    const fechaSorteo = loteria.ultimo_sorteo.fecha_sorteo;
     const esHoy = compararFechas(fechaSorteo, fechaHoy);
-    
     const delay = 100 * index;
 
     // Verificar si existen los números loto1 y loto2 en cualquier lotería
     const numerosAdicionales = [];
-
     if (loteria.ultimo_sorteo.loto1 !== null && loteria.ultimo_sorteo.loto1 !== undefined) {
       numerosAdicionales.push(String(loteria.ultimo_sorteo.loto1).padStart(2, '0'));
     }
-
     if (loteria.ultimo_sorteo.loto2 !== null && loteria.ultimo_sorteo.loto2 !== undefined) {
       numerosAdicionales.push(String(loteria.ultimo_sorteo.loto2).padStart(2, '0'));
     }
@@ -129,11 +148,13 @@ fetch(apiURL)
     // Actualizar los premios con todos los números juntos
     loteria.ultimo_sorteo.premios = todosLosNumeros.join('-');
 
-    // Aquí va la creación de la carta
+    // Crear la carta
     const card = crearCartaLoteria(loteria, esHoy, delay);
     container.appendChild(card);
   });
 
   agregarCalendarioListeners();
-})
-.catch(err => console.error('Error al obtener los datos:', err));
+}
+
+// Llamamos a la función para cargar las loterías
+cargarLoterias();
