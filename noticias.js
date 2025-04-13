@@ -145,6 +145,70 @@ document.addEventListener('DOMContentLoaded', function() {
     if (actual < total) crearBoton('>', actual + 1);
   }
 
+  // Función para actualizar las metaetiquetas Open Graph y Twitter Card
+  function actualizarMetaTags(noticia) {
+    // Actualizar Open Graph
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) ogTitle.setAttribute('content', noticia.title.rendered);
+
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) ogDescription.setAttribute('content', noticia.excerpt.rendered);
+
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) ogImage.setAttribute('content', noticia.jetpack_featured_media_url);
+
+    // Actualizar Twitter Card
+    const twitterTitle = document.querySelector('meta[name="twitter:title"]');
+    if (twitterTitle) twitterTitle.setAttribute('content', noticia.title.rendered);
+
+    const twitterDescription = document.querySelector('meta[name="twitter:description"]');
+    if (twitterDescription) twitterDescription.setAttribute('content', noticia.excerpt.rendered);
+
+    const twitterImage = document.querySelector('meta[name="twitter:image"]');
+    if (twitterImage) twitterImage.setAttribute('content', noticia.jetpack_featured_media_url);
+  }
+
+  // Función para cargar los detalles de la noticia y actualizar los metadatos
+  function cargarNoticia(id) {
+    fetch(`https://deultimominuto.net/wp-json/wp/v2/posts/${id}`)
+      .then(res => res.json())
+      .then(noticia => {
+        // Actualizar las metaetiquetas con los datos de la noticia
+        actualizarMetaTags(noticia);
+
+        // Mostrar los detalles de la noticia
+        const contenedor = document.getElementById("detalle");
+        const titulo = noticia.title.rendered;
+        const fecha = new Date(noticia.date).toLocaleDateString("es-DO", {
+          year: "numeric", month: "long", day: "numeric"
+        });
+        const imagen = noticia.jetpack_featured_media_url;
+        let contenido = noticia.content.rendered;
+
+        contenedor.innerHTML = `
+          <h1>${titulo}</h1>
+          <p class="fecha">📅 ${fecha}</p>
+          <img src="${imagen}" alt="Imagen de la noticia" class="noticia-img" />
+          <div class="contenido-noticia">${contenido}</div>
+          <a href="index.html" class="btn-volver">← Volver a noticias</a>
+        `;
+      })
+      .catch(err => {
+        console.error('Error al cargar la noticia:', err);
+        document.getElementById('detalle').innerHTML = '<p>No se pudo cargar la noticia.</p>';
+      });
+  }
+
   // Llamada inicial para cargar las noticias
   cargarNoticias();
+
+  // Cargar la noticia si el ID está presente en la URL
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (id) {
+    cargarNoticia(id);
+  } else {
+    document.getElementById("detalle").innerHTML = "<p>No se especificó una noticia.</p>";
+  }
 });
