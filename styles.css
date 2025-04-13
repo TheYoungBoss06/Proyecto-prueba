@@ -333,10 +333,14 @@ h2 {
 }
 
 .contenido-noticia {
+  width: 100%;
   font-size: 18px;
   line-height: 1.8;
   color: #444;
   margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+
 }
 
 .contenido-noticia p {
@@ -345,6 +349,14 @@ h2 {
 
 .contenido-noticia strong {
   color: #000;
+}
+
+.contenido-noticia img {
+  max-width: 50%;
+  height: 50%;
+  border-radius: 10px;
+  margin: 20px 0;
+  
 }
 
 .contenido-noticia a {
