@@ -6,6 +6,71 @@ body {
   color: #333;
 }
 
+
+
+
+/* ====== MENÚ ====== */
+#menu {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+#logo img {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+#buscador input {
+  padding: 8px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#menu-nav {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+}
+
+#menu-nav li {
+  display: inline;
+}
+
+#menu-nav a {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 8px 16px;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+#menu-nav a:hover {
+  background-color: #0056b3;
+}
+
+#menu-nav a.active {
+  background-color: #0056b3;
+}
+
+
 h1 {
   text-align: center;
   margin-bottom: 40px;
