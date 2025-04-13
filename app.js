@@ -28,16 +28,26 @@ function compararFechas(fecha1, fecha2) {
 // Crear una carta para cada lotería
 function crearCartaLoteria(loteria, esHoy, delay) {
   const card = document.createElement('div');
-  card.className = 'card'; 
+  card.className = 'card';
 
-  // Aseguramos que estamos usando todos los números (incluyendo loto1 y loto2)
-  const numeros = loteria.ultimo_sorteo.premios.split('-').map(num => num.trim());
-  const colorClase = esHoy ? 'verde' : 'gris';  
+  const numeros = loteria.ultimo_sorteo.premios
+    .split('-')
+    .map(num => num.trim().padStart(2, '0'));
 
-  // Generar las bolas de premios con los números concatenados
-  const bolasHTML = numeros.map(num =>
-    `<div class="bola ${colorClase}">${num}</div>`
-  ).join('');
+  const colorClase = esHoy ? 'verde' : 'gris';
+  const esSuperKino = loteria.image.includes('spk.png'); // <- comprobamos si es Super Kino TV
+
+  const bolasHTML = numeros.map((num, i) => {
+    let claseExtra = colorClase;
+
+    // Solo si es hoy y no es Super Kino
+    if (esHoy && !esSuperKino) {
+      if (i === 6) claseExtra += ' loto1';
+      if (i === 7) claseExtra += ' loto2';
+    }
+
+    return `<div class="bola ${claseExtra}">${num}</div>`;
+  }).join('');
 
   card.innerHTML = `
     <img src="${loteria.image}" alt="${loteria.titulo}">
@@ -87,49 +97,43 @@ function agregarCalendarioListeners() {
 }
 
 fetch(apiURL)
-  .then(res => res.json())
-  .then(data => {
-    const loterias = data.map(company => company.loteria).flat(); 
-    const container = document.getElementById('loterias');
-    const fechaHoy = obtenerFechaLocal();
+.then(res => res.json())
+.then(data => {
+  const loterias = data.map(company => company.loteria).flat(); 
+  const container = document.getElementById('loterias');
+  const fechaHoy = obtenerFechaLocal();
 
-    loterias.forEach((loteria, index) => {
-      const fechaSorteo = loteria.ultimo_sorteo.fecha_sorteo; 
-      const esHoy = compararFechas(fechaSorteo, fechaHoy);
-      
-      const delay = 100 * index;
+  loterias.forEach((loteria, index) => {
+    const fechaSorteo = loteria.ultimo_sorteo.fecha_sorteo; 
+    const esHoy = compararFechas(fechaSorteo, fechaHoy);
+    
+    const delay = 100 * index;
 
-      // Verificar si existen los números loto1 y loto2
-if (loteria.titulo === "LOTO LEIDSA (MIERCOLE & JUEVES - 8:55 PM)") {
-  const numerosAdicionales = [];
+    // Verificar si existen los números loto1 y loto2 en cualquier lotería
+    const numerosAdicionales = [];
 
-  // Accedemos a loto1 y loto2 dentro de ultimo_sorteo
-  if (loteria.ultimo_sorteo.loto1 !== undefined) {
-    numerosAdicionales.push(String(loteria.ultimo_sorteo.loto1).padStart(2, '0'));
-  } else {
-  }
+    if (loteria.ultimo_sorteo.loto1 !== null && loteria.ultimo_sorteo.loto1 !== undefined) {
+      numerosAdicionales.push(String(loteria.ultimo_sorteo.loto1).padStart(2, '0'));
+    }
 
-  if (loteria.ultimo_sorteo.loto2 !== undefined) {
-    numerosAdicionales.push(String(loteria.ultimo_sorteo.loto2).padStart(2, '0'));
-  } else {
-  }
+    if (loteria.ultimo_sorteo.loto2 !== null && loteria.ultimo_sorteo.loto2 !== undefined) {
+      numerosAdicionales.push(String(loteria.ultimo_sorteo.loto2).padStart(2, '0'));
+    }
 
-  const numerosOriginales = loteria.ultimo_sorteo.premios
-    .split('-')
-    .map(num => num.trim().padStart(2, '0')); // para asegurar que tenga 2 dígitos
+    const numerosOriginales = loteria.ultimo_sorteo.premios
+      .split('-')
+      .map(num => num.trim().padStart(2, '0'));
 
-  const todosLosNumeros = numerosOriginales.concat(numerosAdicionales);
+    const todosLosNumeros = numerosOriginales.concat(numerosAdicionales);
 
-  // Actualizamos los premios
-  loteria.ultimo_sorteo.premios = todosLosNumeros.join('-');
+    // Actualizar los premios con todos los números juntos
+    loteria.ultimo_sorteo.premios = todosLosNumeros.join('-');
 
+    // Aquí va la creación de la carta
+    const card = crearCartaLoteria(loteria, esHoy, delay);
+    container.appendChild(card);
+  });
 
-      }
-
-      const card = crearCartaLoteria(loteria, esHoy, delay);
-      container.appendChild(card);
-    });
-
-    agregarCalendarioListeners();
-  })
-  .catch(err => console.error('Error al obtener los datos:', err));
+  agregarCalendarioListeners();
+})
+.catch(err => console.error('Error al obtener los datos:', err));
