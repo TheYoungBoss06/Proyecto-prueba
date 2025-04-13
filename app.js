@@ -137,7 +137,3 @@ fetch(apiURL)
   agregarCalendarioListeners();
 })
 .catch(err => console.error('Error al obtener los datos:', err));
-if (window.location.pathname.endsWith(".html")) {
-  let url = window.location.href.replace(".html", "");
-  window.history.replaceState(null, '', url);  // Esto reemplaza la URL sin la extensión.
-}
