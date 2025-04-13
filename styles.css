@@ -243,3 +243,128 @@ h2 {
   color: #2e7d32;
   margin-bottom: 20px;
 }
+
+
+.noticias-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.noticia-card {
+  width: 300px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: transform 0.2s;
+  text-align: center;
+  padding-bottom: 15px;
+}
+
+.noticia-card:hover {
+  transform: translateY(-5px);
+}
+
+.noticia-card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.noticia-card h3 {
+  font-size: 18px;
+  padding: 10px;
+  color: #333;
+}
+
+.btn-leer {
+  margin-top: 10px;
+  background-color: #007bff;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.btn-leer:hover {
+  background-color: #0056b3;
+}
+
+.noticia-detalle-container {
+  max-width: 900px;
+  margin: 60px auto;
+  padding: 40px 30px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.noticia-titulo {
+  font-size: 32px;
+  color: #1a1a1a;
+  margin-bottom: 10px;
+  text-align: center;
+  font-weight: 700;
+}
+
+.noticia-fecha {
+  text-align: center;
+  color: #888;
+  font-size: 15px;
+  margin-bottom: 25px;
+}
+
+.imagen-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.noticia-img {
+  width: 100%;
+  max-width: 720px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+}
+
+.contenido-noticia {
+  font-size: 18px;
+  line-height: 1.8;
+  color: #444;
+  margin-top: 20px;
+}
+
+.contenido-noticia p {
+  margin-bottom: 20px;
+}
+
+.contenido-noticia strong {
+  color: #000;
+}
+
+.contenido-noticia a {
+  color: #0077cc;
+  text-decoration: underline;
+}
+
+.btn-volver {
+  display: inline-block;
+  margin-top: 40px;
+  background-color: #0077cc;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-volver:hover {
+  background-color: #005fa3;
+}

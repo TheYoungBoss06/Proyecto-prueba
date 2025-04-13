@@ -1,4 +1,4 @@
-const apiURL = 'https://api3.bolillerobingoonlinegratis.com/api/companies/loterias';
+const apiURL = 'https://api3.bolillerobingoonlinegratis.com';
 
 function obtenerFechaLocal() {
   const hoy = new Date();
@@ -62,7 +62,7 @@ function agregarCalendarioListeners() {
   });
 }
 
-fetch(apiURL)
+fetch(apiURL + '/api/companies/loterias')
   .then(res => res.json())
   .then(data => {
     const loterias = data.loteria;
