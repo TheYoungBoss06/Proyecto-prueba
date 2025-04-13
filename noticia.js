@@ -27,16 +27,19 @@ const cargarNoticia = async (id) => {
         const imagen = data.jetpack_featured_media_url;
         let contenido = data.content.rendered;
 
-        // Reemplazar el bloque original por una nueva recomendación
+
+        //  Reemplaza el bloque "Te puede interesar" con la nueva recomendación
         const bloqueTePuedeInteresar = /<p[^>]*?>.*?Te puede interesa(?:r|<\/strong>r).*?<\/a>\s*<\/p>/gi;
         const nuevoBloque = `<p class="recomendacion"><strong>Te puede interesar:</strong> <a href="noticia.html?id=${recomendacion.id}">${recomendacion.title.rendered}</a></p>`;
         contenido = contenido.replace(bloqueTePuedeInteresar, nuevoBloque);
 
+        // Elimina los links de deultimominuto.net dejando solo el texto
+        contenido = contenido.replace(/<a[^>]+href="https:\/\/deultimominuto\.net[^"]*"[^>]*>(.*?)<\/a>/gi, '$1');
+
+
         // Eliminar "Leer más:"
         const bloqueLeerMas = /<h3[^>]*?>\s*<strong>\s*Leer más:\s*<a[^>]*?>.*?<\/a>\s*<\/strong>\s*<\/h3>/gi;
         contenido = contenido.replace(bloqueLeerMas, '');
-
-
         contenedor.innerHTML = `
                     <h1>${titulo}</h1>
                     <p class="fecha">📅 ${fecha}</p>
