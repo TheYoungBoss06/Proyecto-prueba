@@ -59,7 +59,7 @@ const mostrarNoticia = (data, recomendacion) => {
         <p class="fecha">📅 ${fecha}</p>
         <img src="${imagen}" alt="Imagen de la noticia" class="noticia-img" />
         <div class="contenido-noticia">${contenido}</div>
-        <a href="index.html" class="btn-volver">← Volver a noticias</a>
+        <a href="/index.html" class="btn-volver">← Volver a noticias</a>
     `;
 
     actualizarMetasSociales({

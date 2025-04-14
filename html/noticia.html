@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Detalle de Noticia</title>
+    <meta property="og:title" content="Título de la noticia">
+<meta property="og:description" content="Descripción de la noticia">
+<meta property="og:image" content="URL de la imagen">
+<meta name="twitter:title" content="Título de la noticia">
+<meta name="twitter:description" content="Descripción de la noticia">
+<meta name="twitter:image" content="URL de la imagen">
+
+<link rel="stylesheet" href="/css/styles.css">
+</head>
+<header>
+  <div id="menu">
+    <div id="logo">
+      <img src="../img/logo.png" alt="Logo">Lotería
+    </div>
+    <div id="buscador">
+      <form id="formBuscador">
+        <input type="text" id="searchInput" placeholder="Buscar noticias...">
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+    
+    <ul id="menu-nav">
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="/html/resultados.html">Loterias</a></li>
+      <li><a href="/html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
+      <li><a href="/html/contacto.html">Contacto</a></li>
+
+    </ul>
+  </div>
+</header>
+    <h1>Seccion de Noticias</h1>
+
+    <div class="noticia-detalle-container" id="detalle">
+        <p>Cargando noticia...</p>
+    </div>
+
+
+
+
+
+    <footer class="footer">
+        <div class="footer-content">
+            <p>&copy; 2025 MiWeb. Todos los derechos reservados.</p>
+            <ul id="menu-nav">
+              <li><a href="index.html">Inicio</a></li>
+              <li><a href="/html/resultados.html">Loterias</a></li>
+              <li><a href="/html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
+              <li><a href="/html/contacto.html">Contacto</a></li>
+        
+            </ul>
+        </div>
+    </footer>
+    <script src="/js/noticia.js"></script>
+    <script src="/js/buscado.js"></script>
+    <script>
+      document.getElementById('formBuscador').addEventListener('submit', function (e) {
+        e.preventDefault(); // Evita que recargue la página
+    
+        const input = document.getElementById('searchInput');
+        const query = input.value.trim();
+    
+        if (query) {
+          // Redirige a resultados.html con el término de búsqueda
+          window.location.href = `/html/resultadosBusqueda.html?q=${encodeURIComponent(query)}`;
+        }
+      });
+    </script>
+</body>
+
+</html>

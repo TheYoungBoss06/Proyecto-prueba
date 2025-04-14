@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Loterías</title>
+  <link rel="stylesheet" href="/css/styles.css">
+
+</head>
+<header>
+  <div id="menu">
+    <div id="logo">
+      <img src="../img/logo.png" alt="Logo">Lotería
+    </div>
+    <div id="buscador">
+      <form id="formBuscador">
+        <input type="text" id="searchInput" placeholder="Buscar noticias...">
+        <button type="submit">Buscar</button>
+      </form>
+    </div>
+    
+    <ul id="menu-nav">
+      <li><a href="/index.html">Inicio</a></li>
+      <li><a href="/html/resultados.html">Loterias</a></li>
+      <li><a href="/html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
+      <li><a href="/html/contacto.html">Contacto</a></li>
+
+    </ul>
+  </div>
+</header>
+<body>
+
+  <h1>Loterías Disponibles</h1>
+  <div class="loteria-container" id="loterias"></div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p>&copy; 2025 MiWeb. Todos los derechos reservados.</p>
+        <ul class="footer-links">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="about.html">Acerca de</a></li>
+            <li><a href="contact.html">Contacto</a></li>
+        </ul>
+    </div>
+</footer>
+<script src="/js/app.js"></script>
+<script src="/js/buscado.js"></script></body>
+<script>
+  document.getElementById('formBuscador').addEventListener('submit', function (e) {
+    e.preventDefault(); // Evita que recargue la página
+
+    const input = document.getElementById('searchInput');
+    const query = input.value.trim();
+
+    if (query) {
+      // Redirige a resultados.html con el término de búsqueda
+      window.location.href = `resultadosBusqueda.html?q=${encodeURIComponent(query)}`;
+    }
+  });
+</script>
+</body>
+</html>
