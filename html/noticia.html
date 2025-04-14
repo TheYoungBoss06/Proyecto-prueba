@@ -12,7 +12,7 @@
 <meta name="twitter:description" content="Descripción de la noticia">
 <meta name="twitter:image" content="URL de la imagen">
 
-<link rel="stylesheet" href="/css/styles.css">
+<link rel="stylesheet" href="css/styles.css">
 </head>
 <header>
   <div id="menu">
@@ -27,10 +27,10 @@
     </div>
     
     <ul id="menu-nav">
-      <li><a href="index.html">Inicio</a></li>
-      <li><a href="/html/resultados.html">Loterias</a></li>
-      <li><a href="/html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
-      <li><a href="/html/contacto.html">Contacto</a></li>
+      <li><a href="/index.html">Inicio</a></li>
+      <li><a href="html/resultados.html">Loterias</a></li>
+      <li><a href="html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
+      <li><a href="html/contacto.html">Contacto</a></li>
 
     </ul>
   </div>
@@ -49,10 +49,10 @@
         <div class="footer-content">
             <p>&copy; 2025 MiWeb. Todos los derechos reservados.</p>
             <ul id="menu-nav">
-              <li><a href="index.html">Inicio</a></li>
-              <li><a href="/html/resultados.html">Loterias</a></li>
-              <li><a href="/html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
-              <li><a href="/html/contacto.html">Contacto</a></li>
+              <li><a href="/index.html">Inicio</a></li>
+              <li><a href="html/resultados.html">Loterias</a></li>
+              <li><a href="html/loteria.html?id=12&fecha=2025-04-13&nombre=">Números Calientes</a></li>
+              <li><a href="html/contacto.html">Contacto</a></li>
         
             </ul>
         </div>
@@ -68,7 +68,7 @@
     
         if (query) {
           // Redirige a resultados.html con el término de búsqueda
-          window.location.href = `/html/resultadosBusqueda.html?q=${encodeURIComponent(query)}`;
+          window.location.href = `resultadosBusqueda.html?q=${encodeURIComponent(query)}`;
         }
       });
     </script>
