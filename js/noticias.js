@@ -73,7 +73,7 @@ document.addEventListener('DOMContentLoaded', function() {
       card.innerHTML = `
         <img src="${imagen}" alt="Imagen de la noticia">
         <h3>${titulo}</h3>
-        <a href="/html/noticia.html?id=${id}">
+        <a href="../html/noticia.html?id=${id}">
           <button class="btn-leer">Leer más</button>
         </a>
       `;
